@@ -1,4 +1,4 @@
-*
+/*
  CoderPad provides a basic SQL sandbox with the following schema.
  You can also use commands like `show tables` and `desc employees`
  
@@ -16,4 +16,78 @@
  +---------------+---------+           +---------------+-----------+
  */
  
+ -- SELECT * from ride_time limit 10
+ -- 
  /* How many users have never taken a ride */
+ 
+ 
+ Select 
+ count(id) 
+ from 
+ user_data 
+ where id NOT IN 
+ (select user_id from ride_data);
+ 
+ 
+ 
+ select count(u.id) from user_data u
+ left join ride_data r
+ on u.id = r.ride_id
+ where r.ride_id is null;
+ 
+ 
+ 
+ 
+ /* How many users have never taken a ride with in */
+ 
+ /*How many users have never taken a ride within each borough (Manhattan zip codes start with 100, Queens start with 111). 94536*/
+ 
+ 
+ select count(u.id)
+ from user_data u
+ join ride_data r
+ on 
+ u.id = r.ride_id
+ where CAST(u.zip as TEXT)  LIKE '100%' and
+ CAST(u.zip as TEXT)  LIKE '111%'
+ 
+ 
+ select count(u.id)
+ from user_data u
+ join ride_data r
+ on 
+ u.id = r.ride_id
+ where 
+ SUBSTRING(CAST(u.zip AS CHAR),3) IN ('100','111');
+ 
+ 
+ 
+ 
+ /*Compute the duration of each ride in seconds*/
+ 
+ 
+ 
+ select 
+ 
+ CAST(SUBSTRING(CAST(end_time-beg_time AS TEXT),1,2) AS INT)*3600
+ +
+ CAST(SUBSTRING(CAST(end_time-beg_time AS TEXT),4,2) AS INT)*60
+ +
+ CAST(SUBSTRING(CAST(end_time-beg_time AS TEXT),7,2) AS INT) as seconds
+ from  
+ ride_time limit 5;
+ 
+ 
+ 
+ 
+ 
+ select D.user_id,D.ride_id,B.bike_type,EXTRACT (seconds from (end_time - beg_time))  +
+ EXTRACT( hours from (end_time - beg_time)) * 3600 +
+ EXTRACT( minutes from (end_time - beg_time)) * 60
+ from ride_time T 
+ join ride_data  D
+ on T.id = D.ride_id
+ join bike_data B
+ on B.id = D.bike_id
+ join user_data U 
+ on U.id = D.user_id
