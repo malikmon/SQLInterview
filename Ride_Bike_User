@@ -1,0 +1,19 @@
+*
+ CoderPad provides a basic SQL sandbox with the following schema.
+ You can also use commands like `show tables` and `desc employees`
+ 
+ ride_data                             ride_time
+ +---------------+---------+           +---------------+-----------+
+ | ride_id       | int     |<--------->| id            | int       |
+ | user_id       | int     |<----+     | beg_time      | timestamp |
+ | bike_id       | int     |<-+  |     | end_time      | timestamp |
+ +---------------+---------+  |  |     +---------------+-----------+
+                              |  |   
+ bike_data                    |  |     user_data
+ +---------------+---------+  |  |     +---------------+-----------+
+ | id            | int     |<-+  +-----| id            | int       |
+ | bike_type     | varchar |           | zip           | int       |
+ +---------------+---------+           +---------------+-----------+
+ */
+ 
+ /* How many users have never taken a ride */
