@@ -1,0 +1,24 @@
+custid    ordid   qty      datesold
+1         A2       12      2008-01-05
+2         A5       5       2008-01-02
+1         A1       5       2008-01-01
+2         A7       3       2007-02-05
+
+create table visitordb.cust_order (cust_id int, ordid varchar(10), qty int, datesold date)
+
+Find the lastest order of the customer
+select
+cust_id,
+ordid,
+qty,
+datesold
+from
+(select
+cust_id,
+ordid,
+qty,
+datesold,
+dense_rank() over (partition by cust_id order by datesold desc) as rn
+from visitordb.cust_order
+order by cust_id ) tmp
+where tmp.rn = 1
