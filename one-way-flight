@@ -18,7 +18,25 @@ insert into travel values ('MEERUT','CHANDIGARH')
 insert into travel values ('MEERUT','PUNE')
 insert into travel values ('PUNE','MEERUT')
 
-select src,desc
-from travel
-where concat(src,desc) not in select( concat(desc,src) from travel )
+'DELHI','MUMBAI'
+'MUMBAI','DELHI'
+'DELHI','PUNE'
+'MEERUT','CHANDIGARH'
+'MEERUT','PUNE'
+'PUNE','MEERUT'
+
+
+select src, d1 from
+(select tmp1.src, tmp1.dest as d1, tmp2.src as d2
+from 
+(select src, dest, concat(dest,'-',src) as route1 from travel ) tmp1 left outer join
+(select src, concat(src,'-', dest) as route2 from travel ) tmp2 on
+tmp1.route1 = tmp2.route2 ) tmp3
+where d2 is null
+
+O/P
+'DELHI','PUNE'
+'MEERUT','CHANDIGARH'
+
+
 
