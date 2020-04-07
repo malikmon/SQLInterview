@@ -34,6 +34,15 @@ from
 tmp1.route1 = tmp2.route2 ) tmp3
 where d2 is null
 
+Simplified SQL
+
+select src, d1
+from
+(select t1.src, t1.dest d1, t2.dest d2
+from travel t1 left outer join travel t2
+on concat(t1.src,t1.dest) = concat(t2.dest,t2.src)) tmp
+where d2 is null
+
 O/P
 'DELHI','PUNE'
 'MEERUT','CHANDIGARH'
