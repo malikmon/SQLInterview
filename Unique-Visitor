@@ -1,0 +1,27 @@
+visit_date, id
+2020-04-01, 1
+2020-04-01, 2
+2020-04-01, 3
+2020-04-02, 2
+2020-04-03, 2
+2020-04-03, 4
+2020-04-03, 5
+
+Visit_date, total_visitor, visitorgain, visitorloss, new_visitor
+2020-04-01,  3, 3,0,3
+2020-04-02,  1, 0,2,0
+2020-04-03,  3, 2,0,2
+
+select tmp.date_dt,
+count(*) as total_cust,
+sum(if (cust_status = 'New',1,0)) as visitor_gain
+from 
+( 
+select date_dt,
+visitor_id,
+if (count(*) over (partition by visitor_id order by date_dt) = 1,'New','Old') as cust_status,
+DATE_ADD(date_dt, INTERVAL 1 DAY) as next_dt
+from visitorlog) tmp 
+
+group by date_dt
+order by date_dt
