@@ -1,0 +1,24 @@
+src         desc
+DELHI       MUMBAI
+MUMBAI      DELHI
+DELHI       PUNE
+MEERUT      CHANDIGARH
+MEERUT      PUNE
+PUNE        MEERUT
+
+O/P One-way
+
+src         desc
+DELHI       PUNE
+MEERUT      CHANDIGARH
+
+insert into travel values ('DELHI','MUMBAI')
+insert into travel values ('MUMBAI','DELHI')
+insert into travel values ('MEERUT','CHANDIGARH')
+insert into travel values ('MEERUT','PUNE')
+insert into travel values ('PUNE','MEERUT')
+
+select src,desc
+from travel
+where concat(src,desc) not in select( concat(desc,src) from travel )
+
