@@ -1,0 +1,5 @@
+create table visitordb.station (id int, city varchar(21), state varchar(10), lat_n int, long_n int)
+insert into visitordb.station values (123,'abc','aa',11,12)
+insert into visitordb.station values (124,'pqr','aa',11,12)
+insert into visitordb.station values (125,'mopn','aa',11,12)
+insert into visitordb.station values (126,'xxys','aa',11,12)
