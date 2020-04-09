@@ -1,0 +1,23 @@
+How to remove duplicate rows from table
+
+create table employee(name char(10), salary int)
+insert into employee values ('mon',1600)
+
+name, salary
+monika, 1200
+monika, 1200
+dhruv, 1300,
+vaibhav, 1400
+vaibhav, 1400
+
+Answer:- select name, salary, row_number() over (partition by name,salary order by name) as rn from employee
+name, salary, rn
+monika, 1200, 1
+monika, 1200, 2
+dhruv, 1300,1
+vaibhav, 1400,1
+vaibhav, 1400,2
+
+select * from
+(select *, row_number() over (partition by name,salary order by name) as rn from employee)tmp
+where rn = 1
