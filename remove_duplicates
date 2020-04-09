@@ -33,3 +33,9 @@ select name, count(*) from
 (select *, row_number() over (partition by name,salary order by name) as rn from employee)tmp
 where rn > 1
 group by name,salary
+------------ count of duplicates --------
+
+select phone_num, count(*)
+from phonebook
+group by phone_num
+having count(*) > 1
