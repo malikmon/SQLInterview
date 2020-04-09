@@ -21,3 +21,9 @@ vaibhav, 1400,2
 select * from
 (select *, row_number() over (partition by name,salary order by name) as rn from employee)tmp
 where rn = 1
+
+Delete duplicate rows
+
+Delete FROM Student WHERE ROWID <>
+
+(Select max (rowid) from Student b where rollno=b.rollno);
