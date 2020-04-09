@@ -3,3 +3,21 @@ insert into visitordb.station values (123,'abc','aa',11,12)
 insert into visitordb.station values (124,'pqr','aa',11,12)
 insert into visitordb.station values (125,'mopn','aa',11,12)
 insert into visitordb.station values (126,'xxys','aa',11,12)
+insert into visitordb.station values (127,'xxysits','aa',11,12)
+
+select 
+city,
+len_city
+from
+(select 
+city,
+length(city) as len_city,
+dense_rank() over (partition by length(city) order by city asc) as min_rn,
+dense_rank() over (partition by length(city) order by city desc) as max_rn
+from visitordb.station)tmp
+where rn = 1
+// This query will give output for all length with first asending order
+
+SELECT city, length(city) FROM station order by length(city) desc limit 1;
+
+SELECT city, length(city) FROM station order by length(city) asc, city asc limit 1
