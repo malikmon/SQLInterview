@@ -25,3 +25,17 @@ from visitorlog) tmp
 
 group by date_dt
 order by date_dt
+
+with cte as (
+    SELECT curr_visit.dt, count (DISTINCT curr_visit.id) as Total_visitors, count(DISTINCT curr_visit.id) - COUNT(DISTINCT future_visit.id) as diff
+    from visits curr_visit left join visits future_visit on curr_visit.dt=future_visit.dt+1  -- ## similar to LAG window func
+    GROUP by 1
+)
+SELECT dt, 
+    Total_visitors, 
+    case WHEN diff < 0 then 0 else diff end as visitor_gain,
+    case WHEN diff > 0 then 0 else -1*diff end as visitor_loss,
+    case WHEN diff < 0 then 0 else diff end as visitor_gain
+from cte
+
+    case WHEN diff < 0 then 0 else diff end as visitor_gain
