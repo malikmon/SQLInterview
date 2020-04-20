@@ -1,1 +1,7 @@
+# Moving Average 5 Days
+create table company_sales (
+in_date date,
+sale_amt int
+)
 
+insert into company_sales values ('2020-04-21', 20)
