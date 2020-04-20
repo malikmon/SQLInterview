@@ -22,7 +22,6 @@ visitor_id,
 if (count(*) over (partition by visitor_id order by date_dt) = 1,'New','Old') as cust_status,
 DATE_ADD(date_dt, INTERVAL 1 DAY) as next_dt
 from visitorlog) tmp 
-
 group by date_dt
 order by date_dt
 
@@ -39,3 +38,15 @@ SELECT dt,
 from cte
 
     case WHEN diff < 0 then 0 else diff end as visitor_gain
+    
+    
+    
+    
+    
+    ------------ easy implementation --------
+    select vs1.date_dt,
+count( distinct vs1.visitor_id) as total_visit,
+case when (count(distinct vs1.visitor_id) - count( distinct vs2.visitor_id) > 0 ) then (count(distinct vs1.visitor_id) - count( distinct vs2.visitor_id)) else 0 end as visitor_gain,
+case when (count(distinct vs2.visitor_id) - count( distinct vs1.visitor_id) > 0) then (count(distinct vs2.visitor_id) - count( distinct vs1.visitor_id)) else 0 end as visitor_loss
+from visitorlog vs1 left outer join visitorlog vs2 on vs1.date_dt = vs2.date_dt + 1
+group by 1 
