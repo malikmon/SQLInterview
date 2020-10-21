@@ -1,0 +1,44 @@
+TABLES:
+
+Daily_Leads
+
++---------------------------------------------------+
+| lead_id     partner_id      date_id     make_name |
++---------------------------------------------------+
+|     4           2           2019-01-01  toyota    |
+|     6           2           2019-01-01  honda     |
+|     8           2           2019-01-02  toyota    |
+|     9           70          2019-01-01  honda     |
+|     2           70          2019-01-01  ford      |
+|     7           1           2019-01-01  bmw       |
+|     10          4           2019-01-01  bmw       |
+|     25          1           2019-01-02  ford      |
+|                                                   |
++---------------------------------------------------+
+ 
+Table Name: daily_sales
+
++-----------------------------------------------------------------+
+| lead_id partner_id          date_id         make_name   Sale_id |
++-----------------------------------------------------------------+
+|     4           2           2019-01-01      toyota          1   |
+|     6           2           2019-01-01      honda           2   |
+|     8           2           2019-01-02      toyota          3   |
+|     9           70          2019-01-02      honda           4   |
+|     10          4           2019-01-01      bmw             5   |
++-----------------------------------------------------------------+
+Table name partners
+
++----------------------+
+| id      partner_name |
++----------------------+
+| 1       True         |
+| 2       App          |
+| 4       Way          |
+| 70      Fbook        |
++----------------------+
+Question 1: Write a query to get close rate by make and partner name (close rate = sales count / lead count)
+solution : select dl.make_name,p.partner_name,  
+Question 2: Write a query to Aggregate data to get daily leads and sales count by make and date
+Question 3: Delete duplicate rows from dealership table.
+Question 4: Write a query to get the list of make_id that do not exist in d_make but are present in f_visitor
