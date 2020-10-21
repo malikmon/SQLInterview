@@ -1,0 +1,94 @@
+sales
++------------------+---------
+| product_id | INTEGER
+| store_id | INTEGER |
+| customer_id | INTEGER |
+| promotion_id | INTEGER |
+| store_sales | DECIMAL |
+| store_cost | DECIMAL |
+| units_sold | DECIMAL |
+| transaction_date | DATE |
+
+products
++------------------+---------
+| product_id | INTEGER |
+| product_class_id | INTEGER |
+| brand_name | VARCHAR |
+| product_name | VARCHAR |
+| is_low_fat_flg | TINYINT |
+| is_recyclable_flg | TINYINT |
+| gross_weight | DECIMAL |
+| net_weight | DECIMAL |
+
+promotions |
++------------------+---------+
+| promotion_id | INTEGER|
+| promotion_name | VARCHAR |
+| media_type | VARCHAR |
+| cost | DECIMAL |
+| start_date | DATE |
+| end_date | DATE |
+
+product_classes
++------------------+---------+
+| product_class_id | INTEGER |
+| product_subcategory | VARCHAR |
+| product_category | VARCHAR |
+| product_department | VARCHAR |
+| product_family | VARCHAR |
+
+Hi All,
+
+Opening this thread to discuss commonly asked FB schema and it's related qns I got from Glassdoor. Would really appreciate if anyone can verify the answers I have written are correct/provide answers and any other pointers for preparation for DE phone interview ;Have it after 2 days.
+
+Q1. what %age of products have both low fat and recycable .
+select
+COUNT(CASE WHEN is_low_fat_flg ='Y' and is_recyclable_flg ='Y' THEN product_id END)*100
+/COUNT(product_id) as prectg
+FROM PRODUCTS
+
+Q2. find top 5 sales products having promotions
+
+select product_id
+from sales
+where promotion_id is not null
+group by product_id
+order by sum(units_sold * store_cost) desc
+limit 5
+
+Q3. what %age of sales happened on first and last day of the promotion
+Not sure if this asked for all promotions or % for each promotion. in case all -
+SELECT Round(Sum(
+CASE
+WHEN Min(start_date) = transaction_date THEN 1
+WHEN Max(end_date) = transaction_date THEN 1
+ELSE 0
+END) 100/ Count(), 2)
+FROM sales s
+JOIN promotions p s.promotion_id = p.promotion_id
+
+Looking for ans for each promotion.
+
+Q4. Which product had the highest sales with promotions and sales ( basically a where clause on 2 flags)
+Looking for ans
+
+Q5. What are the top five (ranked in decreasing order) single-channel media types that correspond to the most money the grocery chain had spent on its promotional campaigns?
+select media_type
+from promotions
+order by cost desc
+limit 5
+
+Q6. the proportion of valid sales that occurred on certain dates.
+select
+sum(case when transaction_date = 'certain_date' then 1 end)/count(*)
+from sales
+where valid sales
+
+Q7. Manager want to analyze the how the promotions on certain products are performing.find how the the percent of promoted sales?
+count of promoted sales* 100 /total sale
+
+Q8. Get the top3 product class_id by the total sales.
+select product_class_id
+from product join sales on product_id
+order by sum(units * store_cost) desc
+limit 3
