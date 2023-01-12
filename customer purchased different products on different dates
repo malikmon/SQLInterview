@@ -1,0 +1,31 @@
+Write a sql query to find users who purchased different products on different dates. Products purchased on a given date are not repeated any other day.
+userId,  productid, purchasedDate
+(1,1,'23-01-2012') , 
+(1,2,'23-01-2012') ,
+(1,3,'25-01-2012') ,
+(2,1,'23-01-2012') ,
+(2,2,'23-01-2012') ,
+(2,2,'25-01-2012') ,
+(2,4,'25-01-2012') ,
+(3,4,'23-01-2012') ,
+(3,1,'23-01-2012') ,
+(4,1,'23-01-2012') ,
+(4,2,'25-01-2012')
+
+O/P 
+1, 4
+
+Solution 1
+There are basically 2 conditions
+1. Customer has bought products atleast on 2 different dates
+2. Products purchased are on different dates.
+
+select user_id,
+       count(distinct purchaseddate),
+       count(productid),
+       count(distinct productid)
+from userpurchase
+group by user_id
+having count(distinct purchaseddate) > 1
+and count(productid) = count(distinct productid)
+
